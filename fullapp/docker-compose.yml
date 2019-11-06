@@ -1,0 +1,28 @@
+version: '2.0'
+services:
+  #PHP
+  php:
+    build: ./php
+    tty: true
+    volumes:
+      - ./application:/var/www/webapp
+  #NGINX
+  webserver:
+    build: ./webserver
+    volumes:
+      - ./application:/var/www/webapp
+    ports:
+      - "9080:80"
+    links:
+      - php
+  #MYSQL
+  mysql:
+    build: ./mysql
+    tty: true
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root@secret123
+      MYSQL_DATABASE: app
+      MYSQL_PASSWORD: secret
+      
