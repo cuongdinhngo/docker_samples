@@ -1,0 +1,42 @@
+version: '2'
+services:
+  #PHP_PHP-FPM_NGINX
+  # arc_api_server:
+  #   build: ./api_server
+  #   volumes:
+  #     - ../api:/var/www/project
+  #   ports:
+  #     - "127.0.0.1:9010:80"
+  # arc_web_server:
+  #   build: ./web_server
+  #   volumes:
+  #     - ../web:/var/www/project
+  #   ports:
+  #     - "127.0.0.1:9000:80"
+  #APACHE SERVER FOR WEB
+  arc_web_apache:
+    build: ./apache_server
+    volumes:
+      - ../web:/var/www/project
+    ports:
+      - "127.0.0.1:9020:80"
+    tty: true
+  #APACHE SERVER FOR API
+  arc_api_apache:
+    build: ./apache_server
+    volumes:
+      - ../api:/var/www/project
+    ports:
+      - "127.0.0.1:9030:80"
+    tty: true
+  #MYSQL
+  arc_mysql:
+    build: ./mysql
+    tty: true
+    ports:
+      - "23306:3306"
+    environment:
+      MYSQL_DATABASE: arclink
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root@secret123
